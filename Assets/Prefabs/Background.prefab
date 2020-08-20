@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4658277069372526834}
   - component: {fileID: 4658277069372526835}
   - component: {fileID: 4658277069372526832}
+  - component: {fileID: 1532369469}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4658277069372526833}
-  m_LocalRotation: {x: -0, y: -0, z: 0.005050486, w: -0.99998724}
+  m_LocalRotation: {x: 0, y: 0, z: -0.0050526396, w: 0.99998724}
   m_LocalPosition: {x: 0.023, y: -1.869, z: 0}
   m_LocalScale: {x: 12.43857, y: 29.131891, z: 1}
   m_Children: []
@@ -92,3 +93,16 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1532369469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4658277069372526833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19ba73e944474e21b54a6e9fa480312, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundScollSpeed: 0.5

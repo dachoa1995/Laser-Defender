@@ -9,6 +9,11 @@ public class Player : MonoBehaviour
     [SerializeField] float moveSpeed = 10f;
     [SerializeField] float padding = 1f;
     [SerializeField] int health = 200;
+    [SerializeField] AudioClip deathSound;
+    [SerializeField, Range(0, 1)] float deathSoundVolume = 0.75f;
+    [SerializeField] AudioClip shootSound;
+    [SerializeField, Range(0, 1)] float shootSoundVolume = 0.75f;
+    [SerializeField] GameObject deathVFX;
 
     [Header("Projectile")]
     [SerializeField] GameObject laserPrefab;
@@ -53,6 +58,7 @@ public class Player : MonoBehaviour
         {
             GameObject lazer = Instantiate(laserPrefab, transform.position, Quaternion.identity) as GameObject;
             lazer.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed);
+            AudioSource.PlayClipAtPoint(shootSound, Camera.main.transform.position, shootSoundVolume);
             yield return new WaitForSeconds(projectileFiringPeriod);
         }
     }
@@ -71,10 +77,12 @@ public class Player : MonoBehaviour
     private void SetUpMoveBoundaries()
     {
         Camera gameCamera = Camera.main;
-        xMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x + padding;
-        xMax = gameCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x - padding;
+        //xMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x + padding;
+        //xMax = gameCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x - padding;
         yMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).y + padding;
         yMax = gameCamera.ViewportToWorldPoint(new Vector3(0, 1, 0)).y - padding;
+        xMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).y * 9 / 16 + padding;
+        xMax = gameCamera.ViewportToWorldPoint(new Vector3(0, 1, 0)).y * 9 / 16 - padding;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -91,7 +99,18 @@ public class Player : MonoBehaviour
         damageDealer.Hit();
         if (health <= 0)
         {
-            Destroy(gameObject);
+            Die();
         }
     }
+
+    private void Die()
+    {
+        GameObject explosion = Instantiate(deathVFX, transform.position, transform.rotation);
+        Destroy(explosion, 1f);
+        FindObjectOfType<Level>().LoadGameOver();
+        Destroy(gameObject);
+        AudioSource.PlayClipAtPoint(deathSound, Camera.main.transform.position, deathSoundVolume);
+    }
+
+    public int GetHealth() { return health; }
 }
